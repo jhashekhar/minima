@@ -1,0 +1,161 @@
+.hidden_text{
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
+
+.hidden_text:hover{
+  opacity: 1;
+}
+
+#minima{}
+
+#minima-controls{
+  position: fixed;
+  bottom: 0;
+  left: 0;
+}
+
+.minima-card{
+  background: white;
+  border-radius: 5px;
+  /* border: 1px solid #888; */
+  margin: 20px;
+  padding: 20px;
+  box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.23);
+}
+
+#minima-plugins{
+  list-style: none;
+}
+#minima-images-container{
+  background: white;
+  border-radius: 2px;
+  padding: 5px;
+  position: fixed;
+  bottom: 5px;
+  right: 5px;
+  height: 354px;
+  width: 240px;
+  overflow-y: scroll;
+  box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+
+#minima-images-search-container{
+  background: white;
+  border-radius: 2px;
+  padding: 5px;
+  position: fixed;
+  top: 100px;
+  right: 5px;
+  height: auto;
+  overflow-y: scroll;
+  width: 240px;
+  box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.23);
+  text-align: center;
+}
+
+.image-search-result{
+  border: 2px solid transparent;
+  border-radius: 3px transparent;
+  height: 150px;
+  width: 180px;
+}
+
+.image-search-result:hover{
+  border: 2px solid blue;
+  border-radius: 3px blue;
+  width: 185px;
+  height: 155px;
+}
+
+.image-search-result:active{
+  border: 2px solid green;
+  border-radius: 3px green;
+}
+
+
+/* Style the tab */
+.tab {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+}
+
+/* Style the buttons that are used to open the tab content */
+.tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 4px 38px;
+  transition: 0.3s;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+  background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-top: none;
+}
+
+
+/* canvas */
+.canvas-text-color {
+  padding: 0;
+  width: 40px;
+  height: 30px;
+}
+
+.slidecontainer {
+  width: 100%; /* Width of the outside container */
+}
+
+/* The slider itself */
+.slider {
+  -webkit-appearance: none; /* Override default CSS styles */
+  appearance: none;
+  width: 150px; /* Full-width */
+  height: 5px; /* Specified height */
+  background: #d3d3d3; /* Grey background */
+  outline: none; /* Remove outline */
+  opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
+  -webkit-transition: 0.2s; /* 0.2 seconds transition on hover */
+  transition: opacity 0.2s;
+}
+
+/* Mouse-over effects */
+.slider:hover {
+  opacity: 1; /* Fully shown on mouse-over */
+}
+
+/* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none; /* Override default look */
+  appearance: none;
+  width: 4px; /* Set a specific slider handle width */
+  height: 12px; /* Slider handle height */
+  background: #04aa6d; /* Green background */
+  cursor: pointer; /* Cursor on hover */
+}
+
+.slider::-moz-range-thumb {
+  width: 6px; /* Set a specific slider handle width */
+  height: 6px; /* Slider handle height */
+  background: #04aa6d; /* Green background */
+  cursor: pointer; /* Cursor on hover */
+}
+
