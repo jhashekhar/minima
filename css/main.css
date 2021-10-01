@@ -28,32 +28,30 @@
   list-style: none;
 }
 #minima-images-container{
-  background: white;
+  background: #F0F4F8;
   border-radius: 2px;
   padding: 5px;
   position: fixed;
   bottom: 5px;
   right: 5px;
-  height: 354px;
-  width: 240px;
+  height: 400px;
+  width: 300px;
   overflow-y: scroll;
   box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.1);
-  text-align: center;
 }
 
 
 #minima-images-search-container{
-  background: white;
+  background: #F0F4F8;
   border-radius: 2px;
   padding: 5px;
   position: fixed;
-  top: 100px;
+  top: 10px;
   right: 5px;
-  height: auto;
-  overflow-y: scroll;
-  width: 240px;
+  height: 250px;
+  overflow: auto;
+  width: 300px;
   box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.23);
-  text-align: center;
 }
 
 .image-search-result{
@@ -79,37 +77,63 @@
 /* Style the tab */
 .tab {
   overflow: hidden;
-  border: 1px solid #ccc;
-  background-color: #f1f1f1;
+  background-color: #F0F4F8;
 }
 
 /* Style the buttons that are used to open the tab content */
-.tab button {
-  background-color: inherit;
+.tab ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #BCCCDC;
+
+}
+
+.tab li {
   float: left;
+  width: 50%;
+}
+
+.tab li button {
+  color: white;
+  background-color: #334E68;
   border: none;
+  text-align: center;
+  padding: 8px 56px;
+}
+
+.tab li button:not(.active) {
+  background-color: white;
+  color: #334E68;
+}
+
+.active {
+  background-color: #102A43;
+  color: white;
+}
+
+.images-search-input {
+  border: 0.5px solid #BCCCDC;
+  border-radius: 4px 0 0 4px;
+  float: left;
+  height: 30px;
+  width: 180px;
+  padding: 4px;
   outline: none;
-  cursor: pointer;
-  padding: 4px 38px;
-  transition: 0.3s;
 }
 
-/* Change background color of buttons on hover */
-.tab button:hover {
-  background-color: #ddd;
-}
-
-/* Create an active/current tablink class */
-.tab button.active {
-  background-color: #ccc;
-}
-
-/* Style the tab content */
-.tabcontent {
-  display: none;
-  padding: 6px 12px;
-  border: 1px solid #ccc;
-  border-top: none;
+.images-search-button {
+  float: left;
+  height: 40px;
+  border: 0.5px solid #334E68;
+  border-radius: 0 4px 4px 0;
+  background-color: #334E68;
+  color: white;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-right: 6px;
+  padding-left: 6px;
 }
 
 
@@ -159,3 +183,50 @@
   cursor: pointer; /* Cursor on hover */
 }
 
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 150%;
+  left: 50%;
+  margin-left: -60px;
+}
+
+.tooltip .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: black transparent transparent transparent;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
+.boldText {
+  font-weight: bold;
+}
+
+.italicText {
+  font-style: italic;
+}
+
+.underlineText {
+  text-decoration: underline;
+}

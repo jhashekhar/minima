@@ -13,7 +13,7 @@ const initialState: SearchState = {
 	status: false,
 	query: '',
 	prevQueries: [],
-	urls: null,
+	urls: [],
 };
 
 export const getUnsplashImages = createAsyncThunk(

@@ -4,6 +4,8 @@ import studioReducer from './features/studioSlice';
 import canvasReducer from './features/canvas/canvasSlice';
 import canvasImageReducer from './features/canvas/canvasImage';
 import canvasTextReducer from './features/canvas/canvasTextSlice';
+import gifsReducer from './features/gifSlice';
+import tabReducer from './features/tabSlice';
 
 const rootReducer = combineReducers({
 	search: searchReducer,
@@ -11,6 +13,8 @@ const rootReducer = combineReducers({
 	canvas: canvasReducer,
 	canvasImage: canvasImageReducer,
 	canvasText: canvasTextReducer,
+	gifs: gifsReducer,
+	tab: tabReducer,
 });
 
 const store = configureStore({

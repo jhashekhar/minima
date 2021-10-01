@@ -10,12 +10,14 @@ interface CanvasState {
 	c: string;
 	parent: HTMLDivElement;
 	canvasDims: CanvasDims;
+	bg: string;
 }
 
 const initialState: CanvasState = {
 	c: null,
 	parent: null,
 	canvasDims: { width: 400, height: 400 },
+	bg: 'fixed',
 };
 
 const canvasSlice = createSlice({
@@ -41,6 +43,10 @@ const canvasSlice = createSlice({
 		updateInnerHTML(state, action) {
 			state.c = action.payload;
 		},
+
+		updateBGState(state, action) {
+			state.bg = action.payload;
+		},
 	},
 });
 
@@ -49,6 +55,7 @@ export const canvasWidthSelector = (state: RootState) =>
 export const canvasHeightSelector = (state: RootState) =>
 	state.root.canvas.canvasDims.height;
 export const canvasSelector = (state: RootState) => state.root.canvas.c;
+export const bgStateSelector = (state: RootState) => state.root.canvas.bg;
 
 export const {
 	updateCanvas,
@@ -56,5 +63,7 @@ export const {
 	updateInnerHTML,
 	updateCanvasWidth,
 	updateCanvasHeight,
+	updateBGState,
 } = canvasSlice.actions;
+
 export default canvasSlice.reducer;

@@ -1,0 +1,71 @@
+<div id="minima-images-search-container">
+    <div class="tab">
+    {{button searchTab}} {{button studioTab}}
+    </div>
+
+    {{#unless studioMode}}
+    <div id="minima-card-body" class="minima-card-body">
+    <div class="minima-search-input">
+        <p>{{input searchInput}} {{button searchButton}}</p>
+        <span>or</span>
+        {{inputMultiple uploadImageInput}}
+    </div>
+    </div>
+</div>
+{{/unless}}
+
+{{#if studioMode}}
+<div id="image-studio">
+    <div class="slidecontainer">
+    <p><b>Resize Canvas</b></p 
+    <p>
+        Width: 100{{sliderInput canvasWidthSlider}}900
+    </p>
+
+    <p>
+        Height: 100{{sliderInput canvasHeightSlider}}900
+    </p>
+    </div>
+
+    <p>
+    {{button addTextToCanvas}} {{button lockBG}}
+    </p>
+
+    <p>
+    {{button clearCanvas}}
+    </p>
+
+    <p><strong>Text</strong></p>
+    <p>
+    {{colorInput canvasTextColor}}
+    {{button boldText}}
+    {{button italicText}}
+    {{button underlineText}}
+    </p>
+
+    <label>Font family: </label>
+    <select name="font" id="canvas-text-font-family">
+    <option value="Times New Roman">Times New Roman</option>
+    <option value="Sans Serif">Sans Serif</option>
+    <option value="Comic Sans">Comic Sans</option>
+    </select>
+</div>
+{{/if}}
+
+
+{{#if urlsLength}}
+<div id="minima-images-container">
+    <div class="minima-image-panel">
+    {{#each imageUrls}}
+    <a href="#" class="minima-images-replacer">
+        <img src={{this}} class="image-search-result" />
+    </a>
+    {{/each}}
+    </div>
+</div>
+{{/if}}
+
+{{#if selectedCanvasText}}
+    {{sliderInput fontSizeForCanvasText}}
+</div>
+{{/if}}

@@ -1,4 +1,6 @@
 import HBS from 'handlebars';
+import { ctStatusSelector } from './features/canvas/canvasTextSlice';
+import { gifsIdsSelector } from './features/gifSlice';
 
 import {
 	getUnsplashImages,
@@ -9,11 +11,11 @@ import {
 } from './features/searchSlice';
 
 import { studioEditModeSelector } from './features/studioSlice';
+import { tabActiveStatusSelector } from './features/tabSlice';
+
 import store from './store';
 
-const targetMatch = (event: any, query: string) => {
-	return event.target && event.target.matches(query);
-};
+import { targetMatch } from './utils/utils';
 
 let data = {
 	searchInput: {
@@ -26,9 +28,13 @@ let data = {
 		id: 'image-search',
 		name: 'Search',
 	},
-	uploadImageInput: { className: 'upload-image', type: 'file' },
-	searchTab: { className: 'tablinks', id: 'search-tab', name: 'SearcH' },
-	studioTab: { className: 'tablinks', id: 'studio-tab', name: 'Studio' },
+	uploadImageInput: {
+		className: 'upload-image',
+		id: 'upload-image',
+		type: 'file',
+	},
+	searchTab: { className: 'active', id: 'search-tab', name: 'Search' },
+	studioTab: { className: '', id: 'studio-tab', name: 'Studio' },
 	canvasWidthSlider: {
 		className: 'slider',
 		id: 'canvas-width-range',
@@ -54,28 +60,67 @@ let data = {
 		type: 'color',
 		value: '#ff0000',
 	},
+	clearCanvas: {
+		className: 'clear-canvas',
+		id: 'clear-canvas',
+		name: 'Clear Canvas',
+	},
+	selectedCanvasText: false,
+	fontSizeForCanvasText: {
+		className: 'slider',
+		id: 'canvas-text-font-size',
+		min: 5,
+		max: 50,
+		initVal: 20,
+	},
+	lockBG: { className: 'lockBG', id: 'lockBG', name: 'Toggle Lock BG' },
+	boldText: {
+		className: 'boldText',
+		id: 'boldText',
+		name: 'B',
+	},
+	italicText: { className: 'italicText', id: 'italicText', name: 'I' },
+	underlineText: { className: 'underlineText', id: 'underlineText', name: 'U' },
+	fontFamily: ['Times New Roman', 'Comic Sans', 'Sans Serif'],
+	exportCanvas: {
+		className: 'export-canvas',
+		id: 'export-canvas',
+		name: 'Export Canvas',
+	},
+	addGif: {
+		className: 'add-gif',
+		id: 'add-gif',
+		name: 'Add Gif',
+	},
 	imageUrls: searchUrlsSelector(store.getState()),
 	urlsLength: 0,
 	studioMode: false,
+	gifsUrls: gifsIdsSelector(store.getState()),
+	gifsLength: 0,
 };
 
 const insertSideBar = async () => {
 	let temp = `
   <div id="minima-image-plugin"></div>
 
-  <script id="handlebars-demo" type="text/x-handlebars-template">
+  <script id="handlebars-images-plugin" type="text/x-handlebars-template">
     <div id="minima-images-search-container">
       <div class="tab">
-        {{button searchTab}} {{button studioTab}}
+	  	<ul>
+        <li>{{button searchTab}}</li> 
+		  	<li>{{button studioTab}}</li>
+		</ul>
       </div>
 
       {{#unless studioMode}}
       <div id="minima-card-body" class="minima-card-body">
         <div class="minima-search-input">
           <p>{{input searchInput}} {{button searchButton}}</p>
-          <span>or</span>
-          {{inputMultiple uploadImageInput}}
         </div>
+
+		<div>
+		  <p>{{inputMultiple uploadImageInput}}</p>
+		</div>
       </div>
     </div>
     {{/unless}}
@@ -94,18 +139,27 @@ const insertSideBar = async () => {
       </div>
  
       <p>
-        {{button addTextToCanvas}}
+        {{button addTextToCanvas}} {{button lockBG}} {{button addGif}}
       </p>
+
+	  <p>
+	  	{{button clearCanvas}}
+	  </p>
     
+	  <p><strong>Text</strong></p>
       <p>
-        <label>Text color: </label>
         {{colorInput canvasTextColor}}
+		{{button boldText}}
+		{{button italicText}}
+		{{button underlineText}}
       </p>
  
+	  <p>{{button exportCanvas}}</p>
+
       <label>Font family: </label>
       <select name="font" id="canvas-text-font-family">
         <option value="Times New Roman">Times New Roman</option>
-        <option value="">Sans Serif</option>
+        <option value="Sans Serif">Sans Serif</option>
         <option value="Comic Sans">Comic Sans</option>
       </select>
     </div>
@@ -123,6 +177,23 @@ const insertSideBar = async () => {
       </div>
     </div>
     {{/if}}
+
+	{{#if gifsLength}}
+    <div id="minima-images-container">
+      <div class="minima-image-panel">
+        {{#each gifsUrls}}
+        <a href="#" class="minima-images-replacer">
+				<embed id="giphy-embed" src={{this}} width="240" height="280" class="giphy-embed" />
+        </a>
+        {{/each}}
+      </div>
+    </div>
+  {{/if}}
+
+	{{#if selectedCanvasText}}
+	  {{sliderInput fontSizeForCanvasText}}
+	</div>
+	{{/if}}
   </script>`;
 
 	let div = document.createElement('div');
@@ -141,7 +212,7 @@ const insertSideBar = async () => {
 	});
 
 	HBS.registerHelper('inputMultiple', (d) => {
-		let input = `<input class="${d.className}" type="${d.type}" multiple />`;
+		let input = `<input class="${d.className}" id="${d.id}" type="${d.type}" multiple />`;
 		return new HBS.SafeString(input);
 	});
 
@@ -157,7 +228,7 @@ const insertSideBar = async () => {
 		return new HBS.SafeString(input);
 	});
 
-	let template = document.querySelector('#handlebars-demo').innerHTML;
+	let template = document.querySelector('#handlebars-images-plugin').innerHTML;
 
 	let templateScript = HBS.compile(template);
 
@@ -185,8 +256,33 @@ const insertSideBar = async () => {
 			}
 		});
 
-	if (studioEditModeSelector(store.getState())) {
-		data.studioMode = true;
+	data.studioMode = studioEditModeSelector(store.getState());
+	data.imageUrls = searchUrlsSelector(store.getState());
+	data.urlsLength = searchUrlsSelector(store.getState()).length;
+	data.gifsLength = gifsIdsSelector(store.getState()).length;
+
+	if (data.gifsLength > 0) {
+		data.gifsUrls = gifsIdsSelector(store.getState()).map((u) => {
+			return 'https://giphy.com/embed/' + u;
+		});
+
+		console.log('GIF Urls: ', data.gifsUrls);
+	}
+
+	if (tabActiveStatusSelector(store.getState()) === 'search') {
+		data.searchTab.className = 'active';
+		data.studioTab.className = '';
+	} else {
+		data.searchTab.className = '';
+		data.studioTab.className = 'active';
+	}
+
+	if (ctStatusSelector(store.getState())) {
+		data.selectedCanvasText = true;
+	}
+
+	if (data.gifsLength > 0) {
+		data.urlsLength = 0;
 	}
 
 	let html = templateScript(data);
